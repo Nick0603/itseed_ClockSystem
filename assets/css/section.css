@@ -30,7 +30,7 @@
   color: var(--color);
 }
 
-.section-wrapper {
+.section-wrapper,.section-content{
   position: relative;
   max-width: 740px;
   margin: 0 auto;

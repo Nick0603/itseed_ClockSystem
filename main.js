@@ -16,8 +16,6 @@ function initialize () {
   var shouldQuit = makeSingleInstance()
   if (shouldQuit) return app.quit()
 
-  loadDemos()
-
   function createWindow () {
     var windowOptions = {
       width: 1080,
