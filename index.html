@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="height:100%">
 <head>
   <meta charset="utf-8">
+
+
 
   <link rel="stylesheet" href="assets/css/variables.css">
   <link rel="stylesheet" href="assets/css/nativize.css">
@@ -10,36 +12,35 @@
   <link rel="stylesheet" href="assets/css/nav.css">
   <link rel="stylesheet" href="assets/css/section.css">
   <link rel="stylesheet" href="assets/css/demo.css">
-  <link rel="stylesheet" href="assets/css/check.css">
+  <link rel="stylesheet" href="assets/css/attendance.css">
+  <link rel="stylesheet" href="assets/css/manager.css">
   <link rel="stylesheet" href="assets/css/github.css">
 
   <link rel="import" href="sections/about.html">
-  <link rel="import" href="sections/check.html">
-  <link rel="import" href="sections/data-manager.html">
-  <link rel="import" href="sections/windows/windows.html">
-  <link rel="import" href="sections/windows/crash-hang.html">
+  <link rel="import" href="sections/attendance.html">
+  <link rel="import" href="sections/activity.html">
+  <link rel="import" href="sections/user-manager.html">
 </head>
-<body>
+<body style="height:100%">
 
   <nav class="nav js-nav">
     <header class="nav-header">
-      <h1 class="nav-title">ITSEED
-        <strong>iCheck</strong>
-      </h1>
       <svg class="nav-header-icon">
         <use xlink:href="assets/img/icons.svg#icon-electron"></use>
       </svg>
+      <h1 class="nav-title">ITSEED
+        <strong>簽到系統</strong>
+      </h1>
     </header>
-    
+
     <div class="nav-item">
-      <button type="button" id="button-check" data-section="check" class="nav-button">簽到模式</button>
-      <button type="button" id="button-data-manager" data-section="data-manager" class="nav-button">資料管理</button>
+      <button type="button" id="button-file-manager" data-section="file-manager" class="nav-button">檔案管理</button>
     </div>
-    <div class="nav-item u-category-windows">
-      <button type="button" id="button-windows" data-section="windows" class="nav-button">windows</button>
-      <button type="button" id="button-crash-hang" data-section="crash-hang" class="nav-button">crash-hang</button>
+
+    <div class="nav-item">
+      <button type="button" id="button-user-manager" data-section="user-manager" class="nav-button">卡號管理</button>
     </div>
-    
+  
     <footer class="nav-footer">
       <button type="button" id="button-about" data-modal="about" class="nav-footer-button">About</button>
       <a class="nav-footer-logo" href="http://www.itseed.tw/" aria-label="Homepage">
@@ -54,8 +55,6 @@
     require('./assets/imports')
     require('./assets/ex-links')
     require('./assets/nav')
-    require('./assets/demo-btns')
-    require('./assets/code-blocks')
     require('./assets/normalize-shortcuts')
   </script>
 </body>

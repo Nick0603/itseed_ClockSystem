@@ -1,0 +1,51 @@
+<template class="task-template">
+    <section id="user-manager-section" class="section js-section">
+        <header class="section-header">
+            <div class="section-wrapper">
+                <h1>
+                    卡號管理
+                </h1>
+            </div>
+        </header>
+        <div class="section-content">
+            <div>
+                <span>卡號管理</span>
+                <button id="upload">匯入新卡號</button>
+            </div>
+            <div class="selected-file"></div>
+            <div class="manager-list">
+                <div class="search">
+                    <input type="text">
+                </div>
+                <table>
+                    <thead class="thead">
+                        <tr>
+                            <th>座位</th>
+                            <th>姓名</th>
+                            <th>卡號</th>
+                            <th>更新時間</th>
+                            <th>動作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="js-user-tbody">
+                        <!-- <tr>
+                            <td> ID </td>
+                            <td> Name </td>
+                            <td> Card </td>
+                            <td> update_time </td>
+                            <td>
+                                <button class="updateCard">修改</button>
+                            </td>
+                        </tr> -->
+                    </tbody>
+                </table>
+                
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            require('./renderer-process/user-manager')
+        </script>
+
+    </section>
+</template>

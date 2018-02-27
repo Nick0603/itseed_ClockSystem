@@ -1,0 +1,49 @@
+<template class="task-template">
+    <section id="file-manager-section" class="section js-section">
+        <header class="section-header">
+            <div class="section-wrapper">
+                <h1>
+                    檔案管理
+                </h1>
+            </div>
+        </header>
+        <div class="section-content">
+            <div>
+                <button id="createDirBtn">建立資料夾</button>
+                <button id="createFileBtn">新增檔案</button>
+            </div>
+            <div class="selected-file"></div>
+            <div class="manager-list">
+                <div class="search">
+                    <input type="text">
+                </div>
+                <table>
+                    <thead class="thead">
+                        <tr>
+                            <th>檔案名稱</th>
+                            <th>建立時間</th>
+                            <th>動作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="js-file-tbody" class="file-tbody">
+                        <!-- <tr>
+                            <td> Name </td>
+                            <td> create_time </td>
+                            <td>
+                                <button class="finishFile">完成</button>
+                                <button class="deleteFile">修改</button>
+                                <button class="exportFile">匯出</button>
+                            </td>
+                        </tr> -->
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            require('./renderer-process/activity')
+        </script>
+
+    </section>
+</template>

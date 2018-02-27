@@ -1,0 +1,60 @@
+
+.swipeArea{
+    position: relative;
+}
+.controlArea{
+  position: absolute;
+  top: 40px;
+  right:-40px;
+}
+
+.dashboard{
+    height:120px;
+    margin:3em 0;
+}
+
+.dashboard-item{
+    width:30%;
+    height:100%;
+    margin-left:5%;
+    display:inline-block;
+    background-color: #666666;
+    border-radius:0.2em;
+}
+
+.dashboard-item:nth-child(1){
+    margin-left:0;
+}
+.dashboard-item p{
+    margin:0;
+    margin-top:-0.5em;
+    line-height:120px;
+    color:white;
+    text-align: center;
+}
+
+.dashboard-item p .data{
+    font-size:3em;
+    padding:0 0.5em;
+}
+
+
+.attendance-list-nav ul{
+    list-style-type:none;
+    display:inline;
+    margin:0;padding:0;
+}
+.attendance-list-nav ul li{
+    display:inline;
+    border: none;
+    padding:0.5em 1.5em;
+    margin-right:0.5em;
+    cursor: pointer;
+}
+.attendance-list-nav ul li.is-selected {
+    background-color: #fff;
+}
+
+tr.is-leave td{
+    color:#500;
+}

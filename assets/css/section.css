@@ -1,6 +1,7 @@
 /* Section ------------------ */
 
 .section {
+  background-color: #eeeeee;
   position: absolute;
   top: 0;
   left: 0;
@@ -26,23 +27,14 @@
 }
 
 .section h3,
-.section p {
-  color: var(--color);
-}
 
 .section-wrapper,.section-content{
-  position: relative;
-  max-width: 740px;
-  margin: 0 auto;
-  padding: 2rem 2rem 1rem 2rem;
-  border-bottom: 1px solid var(--color-border);
+  width:80%;
+  margin:0 auto;
 }
-@media (min-width: 940px) {
-  .section-wrapper {
-    padding-top: 4rem;
-  }
+.section-wrapper{
+  padding-top:3rem;
 }
-
 .section-icon {
   width: 32px;
   height: 32px;
