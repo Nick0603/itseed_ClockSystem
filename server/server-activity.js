@@ -1,14 +1,14 @@
-var path = require("path");
-var file = path.join(__dirname, './database.sqlite3')
-var sqlite3 = require("sqlite3").verbose();
-var server_user = require("./server-user");
-var server_attendee = require("./server-attendee");
+const path = require("path");
+const file = path.join(__dirname, './database.sqlite3')
+const sqlite3 = require("sqlite3").verbose();
+const server_user = require("./server-user");
+const server_attance = require("./server-attendance");
 
-var db = new sqlite3.Database(file);
+const db = new sqlite3.Database(file);
 
 db.serialize(function () {
     db.run(`
-        CREATE TABLE IF NOT EXISTS AttendeeFiles(
+        CREATE TABLE IF NOT EXISTS Activities(
         ID INTEGER PRIMARY KEY AUTOINCREMENT,
         name            TEXT        NOT NULL,
         date            DATETIME    NOT NULL,
@@ -22,35 +22,35 @@ db.close();
 
 
 module.exports = {
-    selectAllAttendeeFile: function (callback) {
+    selectAllActivity: function (callback) {
         var db = new sqlite3.Database(file);
-        var SQL = "SELECT * FROM AttendeeFiles";
+        var SQL = "SELECT * FROM Activities";
         db.all(SQL, callback);
         db.close();
     },
-    insertAttendeeFile: function (attendeeFile,callback) {
+    insertActivity: function (activity,callback) {
         var db = new sqlite3.Database(file);
-        var SQL = "INSERT INTO AttendeeFiles(name,date,executor,sign_in,sign_out) VALUES (?,?,?,?,?)";
-        db.run(SQL,attendeeFile,function(err){
+        var SQL = "INSERT INTO Activities(name,date,executor,sign_in,sign_out) VALUES (?,?,?,?,?)";
+        db.run(SQL, activity,function(err){
             var file_id = this.lastID;
             server_user.selectAllUser(function (err, users) {
                 let userIds = users.map((user) => user.ID)
-                server_attendee.createAttendeeList(file_id, userIds);
+                server_attance.createAttendanceList(file_id, userIds);
             });
             callback();
         })
         db.close();
     },
-    deleteAttendeeFile: function (id,callback) {
+    deleteActivity: function (id,callback) {
         var db = new sqlite3.Database(file);
-        var SQL = "DELETE FROM AttendeeFiles WHERE ID = $id";
-        server_attendee.deleteAttendeeByFileId(id);
+        var SQL = "DELETE FROM Activities WHERE ID = $id";
+        server_attance.deleteAttendanceByActivityId(id);
         db.run(SQL, { $id: id }, callback)
         db.close();
     },
-    deleteAllAttendeeFile: function (callback) {
+    deleteAllActivity: function (callback) {
         var db = new sqlite3.Database(file);
-        var SQL = "DELETE FROM AttendeeFiles";
+        var SQL = "DELETE FROM Activities";
         db.run(SQL);
         db.close();
     }
