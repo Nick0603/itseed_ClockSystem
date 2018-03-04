@@ -101,11 +101,24 @@ module.exports = {
         }, callback);
         db.close();
     },
-    swipeById: function (user_id,activity_id, callback) {
+    signOutById: function (user_id, activity_id, callback) {
         var db = new sqlite3.Database(file);
         var SQL = `
             UPDATE Attendances 
-            SET is_swipe=1,sign_in=(datetime('now','localtime'))
+            SET sign_out=(datetime('now','localtime'))
+            WHERE user_id=$user_id and activity_id=$activity_id
+        `;
+        db.run(SQL, {
+            $user_id: user_id,
+            $activity_id: activity_id,
+        }, callback);
+        db.close();
+    },
+    swipeById: function (user_id, activity_id,isSignOut,callback) {
+        var db = new sqlite3.Database(file);
+        var SQL = `
+            UPDATE Attendances 
+            SET is_swipe=1,is_leave=0,${isSignOut ?"sign_out":"sign_in"}=(datetime('now','localtime'))
             WHERE user_id=$user_id and activity_id=$activity_id;
         `;
         db.run(SQL, {

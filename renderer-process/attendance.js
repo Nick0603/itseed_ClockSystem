@@ -5,13 +5,27 @@ const swal = require('sweetalert2');
 const server_user = require("../server/server-user");
 const server_attendance = require('../server/server-attendance')
 
-
-const cardInput = document.getElementById('card-input');
+const titleName = document.querySelector('.title-name');
+const inputCard = document.getElementById('input-card');
 const queryTotal = document.getElementById('query-total');
+const queryLeave = document.getElementById('query-leave');
+const queryNoPresent = document.getElementById('query-no-present');
 const tbody = document.getElementById('js-attendance-tbody');
-const card_input = document.getElementById('card-input');
+const checkboxIsSignOut = document.getElementById('checkbox-is-sign-out');
 
-card_input.addEventListener('keypress',function(event){
+function updateView(){
+    var showMode = settings.get('attendance_show');
+    if (showMode == "total"){
+        queryTotal.click();
+    } else if (showMode == "leave"){
+        queryLeave.click();
+    } else if (showMode == "no-present"){
+        queryNoPresent.click();
+    }
+    
+}
+
+inputCard.addEventListener('keypress',function(event){
     if(event.key === "Enter"){
         let activity_id = settings.get('activity_id');
         let swipeCard =  this.value;
@@ -20,11 +34,22 @@ card_input.addEventListener('keypress',function(event){
         let targetUser = attendanceArr.filter((attendance)=>{
             return attendance.card == parseInt(swipeCard);
         })[0];
-        console.log(targetUser);
-        server_attendance.swipeById(targetUser.user_id, activity_id,function(err){
-            queryTotal.click();
+        // console.log(targetUser);
+        if (!targetUser){
+            console.log("can't find card")
+            return ;
+        }
+        let isSignOut = settings.get('isSignOut');
+        server_attendance.swipeById(targetUser.user_id,activity_id,isSignOut,function(err){
+            updateView();
         })
     }
+})
+
+checkboxIsSignOut.addEventListener("change", function (event) {
+    isSignOut = this.checked;
+    settings.set('isSignOut', isSignOut);
+    updateView();
 })
 
 tbody.addEventListener('click', function (event) {
@@ -52,7 +77,7 @@ tbody.addEventListener('click', function (event) {
                         console.log(err);
                         return;
                     }
-                    queryTotal.click();
+                    updateView();
                 })
             }
         })
@@ -74,11 +99,11 @@ tbody.addEventListener('click', function (event) {
                         console.log(err);
                         return;
                     }
-                    queryTotal.click();
+                    updateView();
                 })
             }
         })
-    } else if (classList.contains("registerBtn")){
+    } else if (classList.contains("signInBtn")){
         swal({
             title: '確定簽到',
             text: `${user_id} ${name} 手動簽到`,
@@ -96,7 +121,29 @@ tbody.addEventListener('click', function (event) {
                         console.log(err);
                         return;
                     }
-                    queryTotal.click();
+                    updateView();
+                })
+            }
+        })
+    } else if (classList.contains("signOutBtn")) {
+        swal({
+            title: '確定簽退',
+            text: `${user_id} ${name} 手動簽退`,
+            type: 'info',
+            showCancelButton: true,
+            confirmButtonColor: '#010180',
+            cancelButtonColor: '#aaa',
+            cancelButtonText: '取消',
+            confirmButtonText: '簽退',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.value) {
+                server_attendance.signOutById(user_id, activity_id, function (err) {
+                    if (err) {
+                        console.log(err);
+                        return;
+                    }
+                    updateView();
                 })
             }
         })
@@ -120,7 +167,7 @@ tbody.addEventListener('click', function (event) {
                         console.log(err);
                         return;
                     }
-                    queryTotal.click();
+                    updateView();
                     card_input.focus();
                 })
             }
@@ -128,69 +175,142 @@ tbody.addEventListener('click', function (event) {
     }
 })
 
+function cancelQueryControlSeleted(){
+    var queryControlArr = document.querySelectorAll(".query-control-ul li");
+    queryControlArr.forEach((query) => { query.classList.remove("is-selected") });
+}
 queryTotal.addEventListener('click', function (event) {
+    cancelQueryControlSeleted();
+    this.classList.add("is-selected");
+    settings.set('attendance_show',"total");
+    var activity_id = settings.get('activity_id');
+    server_attendance.selectAttendanceByActivityId(activity_id, showAttendanceData);
+})
+queryLeave.addEventListener('click', function (event) {
+    cancelQueryControlSeleted();
+    this.classList.add("is-selected");
+    settings.set('attendance_show', "leave");
+    var activity_id = settings.get('activity_id');
+    server_attendance.selectAttendanceByActivityId(activity_id, showAttendanceData);
+})
+queryNoPresent.addEventListener('click', function (event) {
+    cancelQueryControlSeleted();
+    this.classList.add("is-selected");
+    settings.set('attendance_show', "no-present");
     var activity_id = settings.get('activity_id');
     server_attendance.selectAttendanceByActivityId(activity_id, showAttendanceData);
 })
 
 function showAttendanceData(err, attendanceArr) {
     window.attendanceArr = attendanceArr;
-    console.log(attendanceArr);
     let dashboardPresent = document.getElementById('dashboard-present')
     let dashboardLeave = document.getElementById('dashboard-leave')
     let dashboardNoPresent = document.getElementById('dashboard-no-present')
     let tbody = document.getElementById('js-attendance-tbody')
+    
+    let isSignOut = settings.get('isSignOut') || false;
+    if (isSignOut) {
+        var signModeName = "sign-out";
+        var signKeyName = "sign_out";
+        titleName.innerText = "簽退頁面";
+    } else {
+        var signModeName = "sign-in";
+        var signKeyName = "sign_in";
+        titleName.innerText = "簽到頁面";
+    }
+
     attendanceCount = {
         present: 0,
         leave: 0,
         noPresent: 0
     }  
 
+    function countAttendance(attendance) {
+        if (attendance.is_leave) {
+            attendanceCount.leave += 1;
+        } else if (attendance[signKeyName]) {
+            attendanceCount.present += 1;
+        } else {
+            attendanceCount.noPresent += 1;
+        }
+    }
+    
+    attendanceArr.forEach(countAttendance);
+    dashboardPresent.innerText = attendanceCount.present;
+    dashboardLeave.innerText = attendanceCount.leave;
+    dashboardNoPresent.innerText = attendanceCount.noPresent;
+
+    var attendance_show = settings.get('attendance_show');
+    if (attendance_show == "leave"){
+        attendanceArr = attendanceArr.filter((attendance)=>{
+            return attendance.is_leave;
+        })
+    }
+    if (attendance_show == "no-present") {
+        attendanceArr = attendanceArr.filter((attendance) => {
+            return !attendance.is_leave && !attendance[signKeyName];
+        })
+    }
+
+    console.log(attendanceArr);
     function showOne(attendance) {
         let newTr = document.createElement('tr');
         newTr.innerHTML = `
             <td class="user_id" >${attendance.user_id}</td>
             <td class="name">${attendance.name}</td>
-            <td class="sign-in-status"></td>
-            <td class="sign-in-time">--:--</td>
+            <td class="${signModeName}-status"></td>
+            <td class="${signModeName}-time">--:--</td>
             <td class="operate"></td>
         `;
         const operateTd = newTr.querySelector(".operate");
-        const statusTd = newTr.querySelector(".sign-in-status");
-        const signInTimeTd = newTr.querySelector(".sign-in-time");
+        const statusTd = newTr.querySelector(`.${signModeName}-status`);
+        const signTimeTd = newTr.querySelector(`.${signModeName}-time`);
         if (attendance.is_leave){
             statusTd.innerText = "請假";
-            attendanceCount.leave += 1;
             operateTd.innerHTML = `
                 <button class="cancelLeaveBtn">取消請假</button>
             `;
             newTr.classList.add("is-leave");
         }else{
-            if (attendance.sign_in){
-                var signInDate = new Date(attendance.sign_in);
-                var hours = signInDate.getHours();
-                var minutes = signInDate.getMinutes();
+            if (attendance[signKeyName]){
+                var signDate = new Date(attendance[signKeyName]);
+                var hours = signDate.getHours();
+                var minutes = signDate.getMinutes();
                 hours = (hours < 10) ? '0' + hours : hours;
                 minutes = (minutes < 10) ? '0' + minutes : minutes;
-                signInTimeTd.innerText = `${hours}:${minutes}`;
-                attendanceCount.present += 1;
+                signTimeTd.innerText = `${hours}:${minutes}`;
                 statusTd.innerText = "已簽到";
                 operateTd.innerHTML += `
-                    <button class="setLeaveBtn">請假</button>
+                    <button class="setLeaveBtn" disabled>請假</button>
                 `;
+                if(isSignOut){
+                    operateTd.innerHTML += `
+                        <button class="signOutBtn" disabled>手動簽退</button>
+                    `
+                }else{
+                    operateTd.innerHTML += `
+                        <button class="signInBtn" disabled>手動簽到</button>
+                    `;
+                }
             } else {
-                attendanceCount.noPresent += 1;
                 statusTd.innerText = "未簽到";
                 operateTd.innerHTML += `
                     <button class="setLeaveBtn">請假</button>
-                    <button class="registerBtn">手動簽到</button>
                 `;
+                if (isSignOut) {
+                    operateTd.innerHTML += `
+                        <button class="signOutBtn">手動簽退</button>
+                    `
+                }else {
+                    operateTd.innerHTML += `
+                        <button class="signInBtn">手動簽到</button>
+                    `;
+                }
             }
-
             if (!attendance.card) {
                 operateTd.innerHTML += `
-                <button class="setCardBtn">新增卡號</button>
-            `;
+                    <button class="setCardBtn">新增卡號</button>
+                `;
             }
         }
         newTr.dataset.user_id = attendance.user_id;
@@ -206,7 +326,10 @@ function showAttendanceData(err, attendanceArr) {
         <td></td>
     </tr>`;
     attendanceArr.forEach(showOne);
-    dashboardPresent.innerText = attendanceCount.present;
-    dashboardLeave.innerText = attendanceCount.leave;
-    dashboardNoPresent.innerText = attendanceCount.noPresent;
 }
+
+
+(function initital() {
+    let isSignOut = settings.get('isSignOut');
+    checkboxIsSignOut.checked = isSignOut;
+})();

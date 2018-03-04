@@ -27,6 +27,12 @@
     cursor:pointer;
 }
 
+.manager-list button:disabled{
+    border:2px solid var(--color-gray);
+    color :var(--color-gray);
+}
+
+
 .manager-list .emptyTr td{
   height:2em;
   border:none;

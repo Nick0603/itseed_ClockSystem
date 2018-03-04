@@ -2,11 +2,15 @@
     <section id="attendance-section" class="section js-section">
         <header class="section-header">
             <div class="section-wrapper swipeArea">
-                <h1>簽到頁面</h1>
+                <h1 class="title-name">簽到頁面</h1>
                 <div class="controlArea">
-                    <input type="text" class="card-input" id="card-input">
-                    <input type="checkbox" id="swtich">
-                    <label class="button" for="swtich"></label>
+                    <input type="text" class="input-card" id="input-card">
+                    <label class="switch">
+                        <input type="checkbox" id="checkbox-is-sign-out">
+                        <span class="slider"></span>
+                    </label>
+                    
+                    <label class="button" for="checkbox-is-sign-out"></label>
                 </div>
             </div>
         </header>
@@ -23,7 +27,6 @@
         </div>
 
         <div class="section-content">
-            
             <div class="attendance-list-nav">
                 <ul class="query-control-ul">
                     <li id="query-total"class="is-selected">總表</li>
