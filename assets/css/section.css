@@ -29,12 +29,11 @@
 
 .section-header,.section-content{
   width:915px;
+  margin:0 auto;
 }
 .section{
-  width:915px;
-  margin: 0 auto;
-  margin-top:46px;
-  margin-bottom:20px;
+  padding-top:46px;
+  padding-bottom:20px;
 }
 .section-wrapper h1{
   font-size: 24px;

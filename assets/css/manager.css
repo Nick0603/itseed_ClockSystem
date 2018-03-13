@@ -1,10 +1,10 @@
 .manager-list{
-    border-radius:2px;
     min-height:651px;
     padding:12px 46px;
+    width:915px;
+    border-radius:4px;
     background-color:white;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    margin-top:16px;
+    box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.29);
 }
 
 .manager-list .search{
@@ -41,6 +41,7 @@
 .manager-list button:disabled{
     border:2px solid var(--color-gray);
     color :var(--color-gray);
+    opacity: 0.3;
 }
 
 
@@ -48,6 +49,16 @@
   height:2em;
   border:none;
 }
+tr:hover td{
+    background-color:rgba(210,210,210,0.3);
+}
+tr:active td{
+    background-color:rgba(210,210,210,0.6);
+}
+tr:nth-child(1):hover td{
+    background-color:white;
+}
+
 
 .user-table tr td:nth-child(1){
     width:100px;
@@ -69,31 +80,14 @@
 .inputCard{
     width:150px;
 }
-
 .file-tbody td.name{
     cursor:pointer;
 }
-
-
-
-tr:hover td{
-    background-color:rgba(210,210,210,0.3);
-}
-
-tr:nth-child(1):hover td{
-    background-color:white;
-}
-
-tr:active td{
-    background-color:rgba(210,210,210,0.6);
-}
-
-
 .uploadDiv{
     padding-left:746px;
     padding-top:4px;
+    margin-bottom:16px;
 }
-
 .upload{
     background-color:var(--color-blue);
     padding:8px 16px;

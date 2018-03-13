@@ -70,10 +70,11 @@ td {
 
 td{
   border-bottom:1px solid #eeeeee;
+  font-size:14px;
 }
 
 th{
-  font-size:13px;
+  font-size:12px;
   border-bottom: 2px solid #999;
   min-width:100px;
 }

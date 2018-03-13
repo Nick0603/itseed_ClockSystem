@@ -11,6 +11,7 @@
   --color-bg:       hsl(0,0%,96%);
 
   --color-accent:   black; /* Fallback */
+  --color-bg2: #ffffff;
   --color-background: #fbfef9;
   --color-red:#8a283d;
   --color-blue: #309aea;
