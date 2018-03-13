@@ -1,15 +1,14 @@
 /* Section ------------------ */
 
 .section {
-  background-color: #eeeeee;
+  background-color:var(--color-background);
   position: absolute;
   top: 0;
   left: 0;
-  right: 0;
+  right:0;
   bottom: 0;
   overflow-x: hidden;
   overflow-y: auto;
-  color: var(--color-accent);
 
   /* Hide */
   pointer-events: none;
@@ -28,13 +27,21 @@
 
 .section h3,
 
-.section-wrapper,.section-content{
-  width:80%;
-  margin:0 auto;
+.section-header,.section-content{
+  width:915px;
 }
-.section-wrapper{
-  padding-top:3rem;
+.section{
+  width:915px;
+  margin: 0 auto;
+  margin-top:46px;
+  margin-bottom:20px;
 }
+.section-wrapper h1{
+  font-size: 24px;
+  margin: 0;
+  padding:4px;
+}
+
 .section-icon {
   width: 32px;
   height: 32px;

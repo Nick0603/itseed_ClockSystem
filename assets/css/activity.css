@@ -1,0 +1,41 @@
+
+.createDiv{
+    padding-left:617px;
+    padding-top:4px;
+}
+
+.createBtn{   
+    background-color:var(--color-background);
+    padding:8px 16px;
+    border-radius: 2px;
+    border: solid 1px var(--color-blue);
+    color:var(--color-blue);
+    margin-right:16px;
+}
+
+.createBtn-icon{
+    vertical-align: middle;
+    margin-right:4px;
+}
+
+.searchBtn{
+    width:16px;
+    height:16px;
+    border:none;
+}
+.createFileBtn{
+    background-color:var(--color-blue);
+    color:white;
+}
+
+.file-tbody .deleteBtn{
+    background-color:var(--color-red);
+    border-color:var(--color-red);
+    color:white;
+}
+
+.file-tbody .exportBtn{
+    background-color:var(--color-blue);
+    border-color:var(--color-blue);
+    color:white;
+}

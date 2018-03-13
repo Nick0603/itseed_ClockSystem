@@ -90,8 +90,6 @@ function showActivityData(err,activityArr) {
         <td></td>
         <td></td>
         <td></td>
-        <td></td>
-        <td></td>
     </tr>`;
     activityArr.forEach(showOne);
 }

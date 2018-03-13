@@ -12,11 +12,10 @@
   <link rel="stylesheet" href="assets/css/nav.css">
   <link rel="stylesheet" href="assets/css/section.css">
   <link rel="stylesheet" href="assets/css/demo.css">
+  <link rel="stylesheet" href="assets/css/activity.css">
   <link rel="stylesheet" href="assets/css/attendance.css">
   <link rel="stylesheet" href="assets/css/manager.css">
-  <link rel="stylesheet" href="assets/css/github.css">
 
-  <link rel="import" href="sections/about.html">
   <link rel="import" href="sections/attendance.html">
   <link rel="import" href="sections/activity.html">
   <link rel="import" href="sections/user-manager.html">
@@ -25,28 +24,23 @@
 
   <nav class="nav js-nav">
     <header class="nav-header">
-      <svg class="nav-header-icon">
-        <use xlink:href="assets/img/icons.svg#icon-electron"></use>
-      </svg>
-      <h1 class="nav-title">ITSEED
-        <strong>簽到系統</strong>
-      </h1>
+      <img src="assets/img/資種logo-02_2.png" alt="logo" class="nav-header-icon">
+      <h1 class="nav-title">ITSEED簽到系統</h1>
     </header>
 
     <div class="nav-item">
-      <button type="button" id="button-file-manager" data-section="file-manager" class="nav-button">檔案管理</button>
+      <button type="button" id="button-file-manager" data-section="file-manager" class="nav-button">
+        <img src="assets/img/file.png" alt="file" class="nav-icon">
+        檔案管理
+      </button>
     </div>
 
     <div class="nav-item">
-      <button type="button" id="button-user-manager" data-section="user-manager" class="nav-button">卡號管理</button>
+      <button type="button" id="button-user-manager" data-section="user-manager" class="nav-button">
+        <img src="assets/img/card.png" alt="card" class="nav-icon">
+        卡號管理
+      </button>
     </div>
-  
-    <footer class="nav-footer">
-      <button type="button" id="button-about" data-modal="about" class="nav-footer-button">About</button>
-      <a class="nav-footer-logo" href="http://www.itseed.tw/" aria-label="Homepage">
-        資訊種子官網
-      </a>
-    </footer>
   </nav>
 
   <main class="content js-content"></main>

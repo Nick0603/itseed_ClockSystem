@@ -1,9 +1,10 @@
 .manager-list{
     border-radius:2px;
-    height:100%;
-    padding:2rem 3rem;
-    background-color: #fff;
+    min-height:651px;
+    padding:12px 46px;
+    background-color:white;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    margin-top:16px;
 }
 
 .manager-list .search{
@@ -11,20 +12,30 @@
 }
 
 .manager-list .search input{
-    width:10rem;
+    width:125px;
+    height:18px;
     border:solid 1px var(--color-blue);
     border-radius: 10px;
 }
+
+.manager-list .search svg{
+    width:16px;
+    height:16px;
+}
+
 
 .manager-list .is-selected td{
     background-color:rgba(0,0,0,0.2);
 }
 .manager-list button{
-    padding:0.5rem 1rem;
+    font-size:13px;
+    padding:8px 16px;
     background-color: #fff;
+    border-radius: 2px;
     border:2px solid var(--color-blue);
     color :var(--color-blue);
     cursor:pointer;
+    margin-right:4px;
 }
 
 .manager-list button:disabled{
@@ -38,7 +49,56 @@
   border:none;
 }
 
+.user-table tr td:nth-child(1){
+    width:100px;
+}
+.user-table tr td:nth-child(2){
+    width:100px;
+}
+.user-table tr td:nth-child(3){
+    width:200px;
+}
+.user-table tr td:nth-child(4){
+    width:200px;
+}
+.user-table tr td:nth-child(5){
+    width:200px;
+}
+
+
+.inputCard{
+    width:150px;
+}
 
 .file-tbody td.name{
     cursor:pointer;
+}
+
+
+
+tr:hover td{
+    background-color:rgba(210,210,210,0.3);
+}
+
+tr:nth-child(1):hover td{
+    background-color:white;
+}
+
+tr:active td{
+    background-color:rgba(210,210,210,0.6);
+}
+
+
+.uploadDiv{
+    padding-left:746px;
+    padding-top:4px;
+}
+
+.upload{
+    background-color:var(--color-blue);
+    padding:8px 16px;
+    border-radius: 2px;
+    border: solid 1px var(--color-blue);
+    color:var(--color-background);
+    font-size:14px;
 }
