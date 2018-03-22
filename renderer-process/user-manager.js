@@ -5,6 +5,9 @@ const tbody = document.getElementById('js-user-tbody')
 const { dialog } = require('electron').remote;
 const fs = require('fs'); // Load the File System to execute our common tasks (CRUD)
 const uploadBtn = document.getElementById('upload')
+const searchInput = document.getElementById('user-search-input');
+const searchBtn = document.getElementById('user-search-btn');
+
 
 uploadBtn.addEventListener('click',function(){
     dialog.showOpenDialog((fileNames) => {
@@ -20,12 +23,12 @@ uploadBtn.addEventListener('click',function(){
                 return;
             }
             /* csv */
-            userArr = data.split('\n');
-            userArr.shift(); //remove title
-            userArr = userArr.map((userStr)=>{
+            user_arr = data.split('\n');
+            user_arr.shift(); //remove title
+            user_arr = user_arr.map((userStr)=>{
                 return userStr.split(',');
             })
-            server.loadUserData(userArr);
+            server.loadUserData(user_arr);
             
         });
     });
@@ -90,7 +93,7 @@ tbody.addEventListener('keypress', function (event) {
 });
 
 
-function showUserData(err, userArr) {
+function showUserData(user_arr) {
     var tbody = document.getElementById('js-user-tbody')
     function showOneUser(user) {
         let newTr = document.createElement('tr');
@@ -113,11 +116,35 @@ function showUserData(err, userArr) {
         <td></td>
         <td></td>
     </tr>`;
-    userArr.forEach(showOneUser);
+    user_arr.forEach(showOneUser);
 }
 
+
+searchInput.addEventListener('keypress', function (event) {
+    if (event.key === "Enter") {
+        searchBtn.click();
+    }
+})
+searchBtn.addEventListener('click',function(){
+    let user_arr = window.user_arr;
+    let search_key = searchInput.value;
+    if (!search_key){
+        showUserData(user_arr);
+        return; 
+    }
+    let filter_user_arr = user_arr
+        .filter(user => {
+            return user.ID.includes(search_key) ||
+            user.name.includes(search_key)
+        })
+    showUserData(filter_user_arr);
+})
+
 function initialize() {
-    server.selectAllUser(showUserData);
+    server.selectAllUser(function(err,user_arr){
+        window.user_arr = user_arr;
+        showUserData(user_arr);
+    });
 }
 
 initialize();

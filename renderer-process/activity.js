@@ -4,6 +4,8 @@ const server_attendance = require('../server/server-attendance.js')
 const settings = require('electron-settings')
 const swal = require('sweetalert2');
 const tbody = document.getElementById('js-file-tbody')
+const searchInput = document.getElementById('activity-search-input');
+const searchBtn = document.getElementById('activity-search-btn');
 
 function callbackUpdateFileMangerView(err) {
     if (err) {
@@ -76,8 +78,43 @@ tbody.addEventListener('click', function (event) {
         })
         
     } else if (classList.contains("exportBtn")) {
-        console.log(id);
         server_attendance.selectAttendanceByActivityId(id,function(err,data){
+            let csvContent = "data:text/csv;charset=utf-8,\uFEFF";
+            csvContent += "標號,名字,簽到時間,簽退時間,\r\n";
+            data.map(function(user){
+                let ID = user.ID ? user.ID : "";
+                let name = user.name ? user.name : "";
+                if (user.is_leave){
+                    var sign_in = "請假";
+                    var sign_out = "請假";
+                }else{
+                    if (user.sign_in){
+                        let d = new Date(user.sign_in);
+                        var sign_in = `${d.getHours()}:${d.getMinutes()}`
+                    }else{
+                        var sign_in = "";
+                    }
+                    if (user.sign_out) {
+                        let d = new Date(user.sign_out);
+                        var sign_out = `${d.getHours()}:${d.getMinutes()}`
+                    } else {
+                        var sign_out = "";
+                    }
+                }
+                return [ID,name,sign_in,sign_out]
+            }).forEach(function (rowArray) {
+                let row = rowArray.join(",");
+                csvContent += row + "\r\n";
+            }); 
+
+            var encodedUri = encodeURI(csvContent);
+            var link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "itseed_attendance.csv");
+            document.body.appendChild(link); // Required for FF
+            link.click();
+            document.body.removeChild(link);
+
             console.log(data);
         })
     }
@@ -101,7 +138,7 @@ tbody.addEventListener('click', function (event) {
     }
 })
 
-function showActivityData(err,activityArr) {
+function showActivityData(activity_arr) {
     let tbody = document.getElementById('js-file-tbody')
     function showOne(activity) {
         let newTr = document.createElement('tr');
@@ -121,10 +158,34 @@ function showActivityData(err,activityArr) {
         <td></td>
         <td></td>
     </tr>`;
-    activityArr.forEach(showOne);
+    activity_arr.forEach(showOne);
 }
 
+searchInput.addEventListener('keypress', function (event) {
+    if (event.key === "Enter") {
+        searchBtn.click();
+    }
+})
+searchBtn.addEventListener('click', function () {
+    let activity_arr = window.activity_arr;
+    let search_key = searchInput.value;
+    if (!search_key) {
+        showActivityData(activity_arr);
+        return;
+    }
+    let filter_activity_arr = activity_arr
+        .filter(activity => activity.name.includes(search_key))
+    showActivityData(filter_activity_arr);
+})
+
 function initialize() {
-    server_activity.selectAllActivity(showActivityData);
+    server_activity.selectAllActivity(function(err,activity_arr){
+        if(err){
+            console.log(err);
+            return;
+        }
+        window.activity_arr = activity_arr;
+        showActivityData(activity_arr);
+    });
 }
 initialize();

@@ -12,6 +12,29 @@ const queryLeave = document.getElementById('query-leave');
 const queryNoPresent = document.getElementById('query-no-present');
 const tbody = document.getElementById('js-attendance-tbody');
 const checkboxIsSignOut = document.getElementById('checkbox-is-sign-out');
+const searchInput = document.getElementById('attendance-search-input');
+const searchBtn = document.getElementById('attendance-search-btn');
+
+searchInput.addEventListener('keypress', function (event) {
+    if (event.key === "Enter") {
+        searchBtn.click();
+    }
+})
+
+searchBtn.addEventListener('click', function () {
+    let attendance_arr = window.attendance_arr;
+    let search_key = searchInput.value;
+    if (!search_key) {
+        showAttendanceData(attendance_arr);
+        return;
+    }
+    let filter_attendance_arr = attendance_arr
+        .filter(attendee => {
+            return attendee.ID.includes(search_key) ||
+                attendee.name.includes(search_key)
+        })
+    showAttendanceData(filter_attendance_arr);
+})
 
 function updateView(){
     var showMode = settings.get('attendance_show');
@@ -30,8 +53,8 @@ inputCard.addEventListener('keypress',function(event){
         let activity_id = settings.get('activity_id');
         let swipeCard =  this.value;
         this.value = "";
-        let attendanceArr = window.attendanceArr;
-        let targetUser = attendanceArr.filter((attendance)=>{
+        let attendance_arr = window.attendance_arr;
+        let targetUser = attendance_arr.filter((attendance)=>{
             return attendance.card == parseInt(swipeCard);
         })[0];
         // console.log(targetUser);
@@ -179,30 +202,29 @@ function cancelQueryControlSeleted(){
     var queryControlArr = document.querySelectorAll(".query-control-ul li");
     queryControlArr.forEach((query) => { query.classList.remove("is-selected") });
 }
-queryTotal.addEventListener('click', function (event) {
-    cancelQueryControlSeleted();
-    this.classList.add("is-selected");
-    settings.set('attendance_show',"total");
-    var activity_id = settings.get('activity_id');
-    server_attendance.selectAttendanceByActivityId(activity_id, showAttendanceData);
-})
-queryLeave.addEventListener('click', function (event) {
-    cancelQueryControlSeleted();
-    this.classList.add("is-selected");
-    settings.set('attendance_show', "leave");
-    var activity_id = settings.get('activity_id');
-    server_attendance.selectAttendanceByActivityId(activity_id, showAttendanceData);
-})
-queryNoPresent.addEventListener('click', function (event) {
-    cancelQueryControlSeleted();
-    this.classList.add("is-selected");
-    settings.set('attendance_show', "no-present");
-    var activity_id = settings.get('activity_id');
-    server_attendance.selectAttendanceByActivityId(activity_id, showAttendanceData);
-})
+function changeTab(tabElement, attendance_mode){
+    return function(){
+        cancelQueryControlSeleted();
+        tabElement.classList.add("is-selected");
+        searchInput.value = "";
+        settings.set('attendance_show', attendance_mode);
+        var activity_id = settings.get('activity_id');
+        server_attendance.selectAttendanceByActivityId(activity_id, storeAttendanceArrAndShow);
+    }
+}
+queryTotal.addEventListener('click', changeTab(queryTotal,"total"))
+queryLeave.addEventListener('click', changeTab(queryLeave, "leave"))
+queryNoPresent.addEventListener('click', changeTab(queryNoPresent, "no-present"))
 
-function showAttendanceData(err, attendanceArr) {
-    window.attendanceArr = attendanceArr;
+function storeAttendanceArrAndShow(err, attendance_arr) {
+    if(err){
+        console.log(err);
+        return;
+    }
+    window.attendance_arr = attendance_arr;
+    showAttendanceData(attendance_arr);
+}
+function showAttendanceData(attendance_arr) {
     let dashboardPresent = document.getElementById('dashboard-present')
     let dashboardLeave = document.getElementById('dashboard-leave')
     let dashboardNoPresent = document.getElementById('dashboard-no-present')
@@ -235,24 +257,23 @@ function showAttendanceData(err, attendanceArr) {
         }
     }
     
-    attendanceArr.forEach(countAttendance);
+    attendance_arr.forEach(countAttendance);
     dashboardPresent.innerText = attendanceCount.present;
     dashboardLeave.innerText = attendanceCount.leave;
     dashboardNoPresent.innerText = attendanceCount.noPresent;
 
     var attendance_show = settings.get('attendance_show');
     if (attendance_show == "leave"){
-        attendanceArr = attendanceArr.filter((attendance)=>{
+        attendance_arr = attendance_arr.filter((attendance)=>{
             return attendance.is_leave;
         })
     }
     if (attendance_show == "no-present") {
-        attendanceArr = attendanceArr.filter((attendance) => {
+        attendance_arr = attendance_arr.filter((attendance) => {
             return !attendance.is_leave && !attendance[signKeyName];
         })
     }
-
-    console.log(attendanceArr);
+    console.log(attendance_arr);
     function showOne(attendance) {
         let newTr = document.createElement('tr');
         newTr.innerHTML = `
@@ -325,11 +346,13 @@ function showAttendanceData(err, attendanceArr) {
         <td></td>
         <td></td>
     </tr>`;
-    attendanceArr.forEach(showOne);
+    attendance_arr.forEach(showOne);
 }
+
 
 
 (function initital() {
     let isSignOut = settings.get('isSignOut');
     checkboxIsSignOut.checked = isSignOut;
+    
 })();

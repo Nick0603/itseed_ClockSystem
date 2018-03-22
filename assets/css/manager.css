@@ -8,19 +8,23 @@
 }
 
 .manager-list .search{
+    height:16px;
+    position: relative;
     float:right;
 }
 
 .manager-list .search input{
+    position: relative;
+    top:-4px;
     width:125px;
-    height:18px;
     border:solid 1px var(--color-blue);
+    height:100%;
     border-radius: 10px;
 }
 
-.manager-list .search svg{
-    width:16px;
-    height:16px;
+.manager-list .search img{
+    cursor: pointer;
+    height:100%;
 }
 
 
