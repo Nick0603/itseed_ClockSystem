@@ -42,9 +42,39 @@ createFileBtn.addEventListener('click', function () {
 tbody.addEventListener('click', function (event) {
     const classList = event.target.classList;
     const targetTr = event.target.parentElement.parentElement;
+    const name = targetTr.querySelector('.name').innerText;
     const id = targetTr.dataset.id;
     if (classList.contains("deleteBtn")) {
-        server_activity.deleteActivity(id, callbackUpdateFileMangerView)
+        swal({
+            title: '確定刪除',
+            text: `刪除「${name}」`,
+            showCancelButton: true,
+            imageUrl: 'assets/img/trash.png',
+            imageWidth: '80px',
+            imageHeight: '80px',
+            confirmButtonClass: 'modal-btn modal-fileDelete-confirm',
+            cancelButtonClass: 'modal-btn modal-fileDelete-cancel',
+            cancelButtonText: '取消',
+            confirmButtonText: '刪除',
+            buttonsStyling: false,
+            reverseButtons: true
+        }).then((result) => {
+            if (result.value) {
+                server_activity.deleteActivity(id, function(){
+                    swal({
+                        title: '已刪除',
+                        imageUrl: 'assets/img/confirm-red.png',
+                        imageWidth: '80px',
+                        imageHeight: '80px',
+                        timer: 1000,
+                        showConfirmButton: false,
+                    })
+                    callbackUpdateFileMangerView();
+                })
+            
+            }
+        })
+        
     } else if (classList.contains("exportBtn")) {
         console.log(id);
         server_attendance.selectAttendanceByActivityId(id,function(err,data){

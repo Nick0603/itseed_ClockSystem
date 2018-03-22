@@ -1,7 +1,7 @@
 .manager-list{
     min-height:651px;
     padding:12px 46px;
-    width:915px;
+    width:100%;
     border-radius:4px;
     background-color:white;
     box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.29);
@@ -59,40 +59,3 @@ tr:nth-child(1):hover td{
     background-color:white;
 }
 
-
-.user-table tr td:nth-child(1){
-    width:100px;
-}
-.user-table tr td:nth-child(2){
-    width:100px;
-}
-.user-table tr td:nth-child(3){
-    width:200px;
-}
-.user-table tr td:nth-child(4){
-    width:200px;
-}
-.user-table tr td:nth-child(5){
-    width:200px;
-}
-
-
-.inputCard{
-    width:150px;
-}
-.file-tbody td.name{
-    cursor:pointer;
-}
-.uploadDiv{
-    padding-left:746px;
-    padding-top:4px;
-    margin-bottom:16px;
-}
-.upload{
-    background-color:var(--color-blue);
-    padding:8px 16px;
-    border-radius: 2px;
-    border: solid 1px var(--color-blue);
-    color:var(--color-background);
-    font-size:14px;
-}

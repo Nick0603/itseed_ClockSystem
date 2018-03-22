@@ -110,3 +110,15 @@ svg {
 
 /* Hacks ---------------------------- */
 
+#swal2-title{
+  font-size: 21px;
+  font-weight: 500;
+  color: var(--color-gray);
+  padding: 4px;
+}
+#swal2-content{
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--color-gray);
+    letter-spacing:2px;
+}

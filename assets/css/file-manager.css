@@ -1,0 +1,37 @@
+.file-tbody td.name{
+    cursor:pointer;
+}
+
+.inputCard{
+    width:150px;
+}
+
+.uploadDiv{
+    padding-left:746px;
+    padding-top:4px;
+    margin-bottom:16px;
+}
+.upload{
+    background-color:var(--color-blue);
+    padding:8px 16px;
+    border-radius: 2px;
+    border: solid 1px var(--color-blue);
+    color:var(--color-background);
+    font-size:14px;
+}
+
+.user-table tr td:nth-child(1){
+    width:100px;
+}
+.user-table tr td:nth-child(2){
+    width:100px;
+}
+.user-table tr td:nth-child(3){
+    width:200px;
+}
+.user-table tr td:nth-child(4){
+    width:200px;
+}
+.user-table tr td:nth-child(5){
+    width:200px;
+}

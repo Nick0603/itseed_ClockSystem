@@ -40,3 +40,25 @@
     border-color:var(--color-blue);
     color:white;
 }
+
+
+.modal-btn{
+    padding:8px 20px;
+    border-radius: 2px;
+    margin:4px;
+    font-size:13px;
+}
+
+.modal-fileDelete-confirm{
+    color:white;
+    background-color:var(--color-red);
+    border-color:var(--color-red);
+    box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.5);
+}
+
+.modal-fileDelete-cancel{
+    background-color:var(--color-background);
+    border: solid 1px var(--color-gray);
+    color:var(--color-gray);
+}
+

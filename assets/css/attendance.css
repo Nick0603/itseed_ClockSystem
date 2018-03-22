@@ -40,12 +40,17 @@
     padding-left:46px;
 }
 
+
+.attendance-list-nav{
+    height:26px;
+}
 .attendance-list-nav ul{
     list-style-type:none;
     display:inline;
     margin:0;padding:0;
 }
 .attendance-list-nav ul li{
+    position: relative;
     display:inline;
     border: none;
     font-size:14px;
@@ -56,6 +61,22 @@
 .attendance-list-nav ul li.is-selected {
     background-color: #fff;
     box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.29);
+}
+
+/* amazing solution to cover the bottom shadow of page tabs */
+.attendance-list{
+    position: relative;
+    z-index:2;
+}
+.attendance-list-nav ul li.is-selected:before{
+    position: absolute;
+    content:"";
+    height:10px;
+    width:100%;
+    background-color: #fff;
+    z-index:4;
+    left:0px;
+    bottom:-5px;
 }
 
 tr.is-leave td{
@@ -83,6 +104,9 @@ tr.is-leave td{
     border: solid 0.3px var(--color-blue);
     margin-right:24px;
 }
+
+
+
 
 .switch {
   margin-bottom:-6px;
@@ -171,8 +195,9 @@ input:checked + .slider:after {
     width:100px;
 }
 .attendance-table tr td:nth-child(4){
-    width:150px;
+    width:100px;
 }
 .attendance-table tr td:nth-child(5){
-    width:200px;
+    width:250px;
 }
+
