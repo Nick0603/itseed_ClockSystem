@@ -33,7 +33,7 @@ searchBtn.addEventListener('click', function () {
             return attendee.ID.includes(search_key) ||
                 attendee.name.includes(search_key)
         })
-    showAttendanceData(filter_attendance_arr);
+    showAttendanceData(attendance_arr, filter_attendance_arr);
 })
 
 function updateView(){
@@ -224,7 +224,7 @@ function storeAttendanceArrAndShow(err, attendance_arr) {
     window.attendance_arr = attendance_arr;
     showAttendanceData(attendance_arr);
 }
-function showAttendanceData(attendance_arr) {
+function showAttendanceData(attendance_arr,filter_attendance_arr) {
     let dashboardPresent = document.getElementById('dashboard-present')
     let dashboardLeave = document.getElementById('dashboard-leave')
     let dashboardNoPresent = document.getElementById('dashboard-no-present')
@@ -274,6 +274,9 @@ function showAttendanceData(attendance_arr) {
         })
     }
     console.log(attendance_arr);
+    if (filter_attendance_arr){
+        attendance_arr = filter_attendance_arr;
+    }
     function showOne(attendance) {
         let newTr = document.createElement('tr');
         newTr.innerHTML = `
