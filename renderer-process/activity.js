@@ -12,7 +12,14 @@ function callbackUpdateFileMangerView(err) {
         console.log(err);
         return;
     }
-    server_activity.selectAllActivity(showActivityData);
+    server_activity.selectAllActivity(function (err, activity_arr) {
+        if (err) {
+            console.log(err);
+            return;
+        }
+        window.activity_arr = activity_arr;
+        showActivityData(activity_arr);
+    });
 }
 
 createFileBtn.addEventListener('click', function () {
@@ -179,13 +186,6 @@ searchBtn.addEventListener('click', function () {
 })
 
 function initialize() {
-    server_activity.selectAllActivity(function(err,activity_arr){
-        if(err){
-            console.log(err);
-            return;
-        }
-        window.activity_arr = activity_arr;
-        showActivityData(activity_arr);
-    });
+    callbackUpdateFileMangerView();
 }
 initialize();
