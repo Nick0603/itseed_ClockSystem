@@ -291,9 +291,11 @@ function showAttendanceData(attendance_arr,filter_attendance_arr) {
         const signTimeTd = newTr.querySelector(`.${signModeName}-time`);
         if (attendance.is_leave){
             statusTd.innerText = "請假";
-            operateTd.innerHTML = `
-                <button class="cancelLeaveBtn">取消請假</button>
-            `;
+            if (!isSignOut){
+                operateTd.innerHTML = `
+                    <button class="cancelLeaveBtn">取消請假</button>
+                `;
+            }
             newTr.classList.add("is-leave");
         }else{
             if (attendance[signKeyName]){
@@ -303,30 +305,28 @@ function showAttendanceData(attendance_arr,filter_attendance_arr) {
                 hours = (hours < 10) ? '0' + hours : hours;
                 minutes = (minutes < 10) ? '0' + minutes : minutes;
                 signTimeTd.innerText = `${hours}:${minutes}`;
-                statusTd.innerText = "已簽到";
-                operateTd.innerHTML += `
-                    <button class="setLeaveBtn" disabled>請假</button>
-                `;
                 if(isSignOut){
+                    statusTd.innerText = "已簽退";
                     operateTd.innerHTML += `
                         <button class="signOutBtn" disabled>手動簽退</button>
                     `
                 }else{
+                    statusTd.innerText = "已簽到";
                     operateTd.innerHTML += `
+                        <button class="setLeaveBtn" disabled>請假</button>
                         <button class="signInBtn" disabled>手動簽到</button>
                     `;
                 }
             } else {
-                statusTd.innerText = "未簽到";
-                operateTd.innerHTML += `
-                    <button class="setLeaveBtn">請假</button>
-                `;
                 if (isSignOut) {
+                    statusTd.innerText = "未簽退";
                     operateTd.innerHTML += `
                         <button class="signOutBtn">手動簽退</button>
                     `
                 }else {
+                    statusTd.innerText = "未簽到";
                     operateTd.innerHTML += `
+                        <button class="setLeaveBtn">請假</button>
                         <button class="signInBtn">手動簽到</button>
                     `;
                 }

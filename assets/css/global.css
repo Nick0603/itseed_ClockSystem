@@ -68,11 +68,13 @@ td {
   border:none;
   text-align: left;
   padding:0.5rem;
+  height:51px;
 }
 
 td{
   border-bottom:1px solid #eeeeee;
   font-size:14px;
+  
 }
 
 th{
