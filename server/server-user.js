@@ -70,4 +70,13 @@ module.exports = {
         db.run(deleteUser);
         db.close();
     },
+    verifyByCard:function(input_card,callback){
+        var db = new sqlite3.Database(file);
+        const hash_input_card = crypto.createHmac('sha256', secret)
+            .update(input_card)
+            .digest('hex');
+        var SQL = "SELECT * FROM Users Where card = $hash_input_card";
+        let user = db.get(SQL, { $hash_input_card: hash_input_card },callback);
+        db.close();
+    }
 }

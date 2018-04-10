@@ -28,6 +28,10 @@
 }
 .user-table tr td:nth-child(3){
     width:200px;
+    max-width:200px;
+    overflow:hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 .user-table tr td:nth-child(4){
     width:200px;

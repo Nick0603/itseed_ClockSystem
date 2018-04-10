@@ -58,16 +58,16 @@ inputCard.addEventListener('keypress', function (event) {
         let swipeCard = this.value;
         this.value = "";
         let attendance_arr = golbal.attendance_arr;
-        let targetUser = attendance_arr.filter((attendance) => {
-            return attendance.card == parseInt(swipeCard);
-        })[0];
-        if (!targetUser) {
-            console.log("can't find the card")
-            return;
-        }
-        let isSignOut = settings.get('isSignOut');
-        server_attendance.swipeById(targetUser.user_id, activity_id, isSignOut, function (err) {
-            updateAttandanceView();
+        server_user.verifyByCard(swipeCard, function (err, targetUser){
+            console.log(targetUser);
+            if (!targetUser) {
+                console.log("can't find the card")
+                return;
+            }
+            let isSignOut = settings.get('isSignOut');
+            server_attendance.swipeById(targetUser.ID, activity_id, isSignOut, function (err) {
+                updateAttandanceView();
+            })
         })
     }
 })
