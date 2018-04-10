@@ -1,20 +1,8 @@
 const path = require("path");
 const file = path.join(__dirname, './database.sqlite3')
 const sqlite3 = require("sqlite3").verbose();
-const db = new sqlite3.Database(file);
 const crypto = require('crypto');
 const secret = 'itseedsAreAlawayHere';
-
-db.serialize(function () {
-    db.run(`
-        CREATE TABLE IF NOT EXISTS Users(
-        ID TEXT PRIMARY KEY NOT NULL,
-        name            TEXT        NOT NULL,
-        card            TEXT,
-        update_time     DATETIME DEFAULT (datetime('now','localtime'))
-    )`);
-});
-db.close();
 
 
 module.exports = {
@@ -46,17 +34,18 @@ module.exports = {
         db.close();
     },
     loadUserData:function(userArr,callback){
+        var db = new sqlite3.Database(file);
         db.serialize(function () {
-            var db = new sqlite3.Database(file);
             var deleteUser = "DELETE FROM Users";
             var insertUser = "INSERT INTO Users(ID,name,card) VALUES (?,?,?)";
             db.run(deleteUser);
             userArr.forEach(function(user){
-                console.log(user);
-                db.run(insertUser,user);
-            })
-            db.close();
+                    db.run(insertUser,user);
+                })
+            var SQL = "SELECT * FROM Users";
+            db.all(SQL, callback);  
         });
+        db.close();
     },
     deleteUser:function(id,callback){
         var db = new sqlite3.Database(file);

@@ -25,11 +25,16 @@ uploadBtn.addEventListener('click',function(){
             /* csv */
             user_arr = data.split('\n');
             user_arr.shift(); //remove title
-            user_arr = user_arr.map((userStr)=>{
-                return userStr.split(',');
-            })
-            server.loadUserData(user_arr);
-            
+            user_arr = user_arr
+                .map((userStr)=>{
+                    return userStr.split(',').slice(0,3);
+                })
+                .filter(user => { return user[0] != "" })
+            console.log(user_arr);
+            server.loadUserData(user_arr, function (err, user_arr) {
+                console.log(user_arr);
+                showUserData(user_arr);
+            });
         });
     });
 });

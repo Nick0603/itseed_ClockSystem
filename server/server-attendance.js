@@ -2,25 +2,6 @@ var path = require("path");
 var file = path.join(__dirname, './database.sqlite3')
 var sqlite3 = require("sqlite3").verbose();
 
-var db = new sqlite3.Database(file);
-
-db.serialize(function () {
-    db.run(`
-        CREATE TABLE IF NOT EXISTS Attendances(
-            ID INTEGER PRIMARY KEY AUTOINCREMENT,
-            is_leave         BOOLEAN     DEFAULT 0,
-            is_swipe         BOOLEAN     DEFAULT 0,
-            sign_in         DATETIME    ,
-            sign_out        DATETIME    ,
-            activity_id     INTEGER     NOT NULL,
-            user_id         INTEGER     NOT NULL
-        )
-    `);
-});
-db.close();
-
-
-
 module.exports = {
     selectAttendance: function (id, callback) {
         var db = new sqlite3.Database(file);
@@ -47,14 +28,14 @@ module.exports = {
         db.close();
     },
     createAttendanceList:function(activity_id,userIDArr,callback){
+        var db = new sqlite3.Database(file);
+        var SQL = "INSERT INTO Attendances(activity_id,user_id) VALUES (?,?)";
         db.serialize(function () {
-            var db = new sqlite3.Database(file);
-            var SQL = "INSERT INTO Attendances(activity_id,user_id) VALUES (?,?)";
             userIDArr.forEach(function (user_id) {
                 db.run(SQL, [activity_id, user_id]);
             })
-            db.close();
         });
+        db.close();
     },
     insertAttendance: function (data) {
         var db = new sqlite3.Database(file);

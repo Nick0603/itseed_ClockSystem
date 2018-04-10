@@ -4,23 +4,6 @@ const sqlite3 = require("sqlite3").verbose();
 const server_user = require("./server-user");
 const server_attance = require("./server-attendance");
 
-const db = new sqlite3.Database(file);
-
-db.serialize(function () {
-    db.run(`
-        CREATE TABLE IF NOT EXISTS Activities(
-        ID INTEGER PRIMARY KEY AUTOINCREMENT,
-        name            TEXT        NOT NULL,
-        date            DATETIME    NOT NULL,
-        executor        TEXT        NOT NULL,
-        sign_in         DATETIME    NOT NULL,
-        sign_out        DATETIME    NOT NULL,
-        create_time     DATETIME    DEFAULT (datetime('now','localtime'))
-    )`);
-});
-db.close();
-
-
 module.exports = {
     selectAllActivity: function (callback) {
         var db = new sqlite3.Database(file);
