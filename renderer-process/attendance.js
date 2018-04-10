@@ -260,27 +260,27 @@ function showOne(attendance) {
 tbody.addEventListener('click', function (event) {
     const classList = event.target.classList;
     const targetTr = event.target.parentElement.parentElement;
-    const user_id = targetTr.dataset.user_id;
-    const activity_id = targetTr.dataset.activity_id;
-    const name = targetTr.dataset.name;
-
+    const self = this;
+    self.user_id = targetTr.dataset.user_id;
+    self.activity_id = targetTr.dataset.activity_id;
+    self.name = targetTr.dataset.name;
     if (classList.contains("cancelLeaveBtn")) {
-        dialogCancelLeave();
+        dialogCancelLeave.call(self);
     } else if (classList.contains("setLeaveBtn")) {
-        dialogSetLeave();
+        dialogSetLeave.call(self);
     } else if (classList.contains("signInBtn")) {
-        dialogSignIn();
+        dialogSignIn.call(self);
     } else if (classList.contains("signOutBtn")) {
-        dialogSignOut();
+        dialogSignOut.call(self);
     } else if (classList.contains("setCardBtn")) {
-        dialogSetCard();
+        dialogSetCard.call(self);
     }
 })
 
 function dialogCancelLeave(){
     swal({
         title: '取消請假',
-        text: `${user_id} ${name} 取消請假`,
+        text: `${this.user_id} ${this.name} 取消請假`,
         type: 'info',
         showCancelButton: true,
         confirmButtonColor: '#010180',
@@ -290,7 +290,7 @@ function dialogCancelLeave(){
         reverseButtons: true
     }).then((result) => {
         if (result.value) {
-            server_attendance.cancelLeaveById(user_id, activity_id, function (err) {
+            server_attendance.cancelLeaveById(this.user_id, this.activity_id, function (err) {
                 if (err) {
                     console.log(err);
                     return;
@@ -304,7 +304,7 @@ function dialogCancelLeave(){
 function dialogSetLeave(){
     swal({
         title: '確定請假',
-        text: `${user_id} ${name} 設定請假`,
+        text: `${this.user_id} ${this.name} 設定請假`,
         type: 'info',
         showCancelButton: true,
         confirmButtonColor: '#010180',
@@ -314,7 +314,7 @@ function dialogSetLeave(){
         reverseButtons: true
     }).then((result) => {
         if (result.value) {
-            server_attendance.setLeaveById(user_id, activity_id, function (err) {
+            server_attendance.setLeaveById(this.user_id, this.activity_id, function (err) {
                 if (err) {
                     console.log(err);
                     return;
@@ -328,7 +328,7 @@ function dialogSetLeave(){
 function dialogSignIn(){
         swal({
         title: '確定簽到',
-        text: `${user_id} ${name} 手動簽到`,
+        text: `${this.user_id} ${this.name} 手動簽到`,
         type: 'info',
         showCancelButton: true,
         confirmButtonColor: '#010180',
@@ -338,7 +338,7 @@ function dialogSignIn(){
         reverseButtons: true
     }).then((result) => {
         if (result.value) {
-            server_attendance.signInById(user_id, activity_id, function (err) {
+            server_attendance.signInById(this.user_id, this.activity_id, function (err) {
                 if (err) {
                     console.log(err);
                     return;
@@ -352,7 +352,7 @@ function dialogSignIn(){
 function dialogSignOut(){
     swal({
         title: '確定簽退',
-        text: `${user_id} ${name} 手動簽退`,
+        text: `${this.user_id} ${this.name} 手動簽退`,
         type: 'info',
         showCancelButton: true,
         confirmButtonColor: '#010180',
@@ -362,7 +362,7 @@ function dialogSignOut(){
         reverseButtons: true
     }).then((result) => {
         if (result.value) {
-            server_attendance.signOutById(user_id, activity_id, function (err) {
+            server_attendance.signOutById(this.user_id, this.activity_id, function (err) {
                 if (err) {
                     console.log(err);
                     return;
@@ -375,7 +375,7 @@ function dialogSignOut(){
 
 function dialogSetCard(){
     swal({
-        title: `${user_id} ${name}`,
+        title: `${this.user_id} ${this.name}`,
         input: 'text',
         inputPlaceholder: '請刷卡或輸入卡號',
         showCancelButton: true,
@@ -388,8 +388,7 @@ function dialogSetCard(){
     }).then((result) => {
         if (result.value) {
             let card = result.value;
-
-            server_user.updateUserCard(user_id, card, function (err) {
+            server_user.updateUserCard(this.user_id, card, function (err) {
                 if (err) {
                     console.log(err);
                     return;

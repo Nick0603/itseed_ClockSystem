@@ -52,6 +52,7 @@ tbody.addEventListener('click', function (event) {
     const classList = event.target.classList;
     const targetTr = event.target.parentElement.parentElement;
     const name = targetTr.querySelector('.name').innerText;
+    const create_time = targetTr.querySelector('.create-time').innerText;
     const id = targetTr.dataset.id;
     if (classList.contains("deleteBtn")) {
         swal({
@@ -87,10 +88,11 @@ tbody.addEventListener('click', function (event) {
     } else if (classList.contains("exportBtn")) {
         server_attendance.selectAttendanceByActivityId(id,function(err,data){
             let csvContent = "data:text/csv;charset=utf-8,\uFEFF";
-            csvContent += "標號,名字,簽到時間,簽退時間,\r\n";
+            csvContent += "ID,名字,簽到時間,簽退時間,,,,卡號\r\n";
             data.map(function(user){
                 let ID = user.ID ? user.ID : "";
                 let name = user.name ? user.name : "";
+                let card = user.card ? user.card : "";
                 if (user.is_leave){
                     var sign_in = "請假";
                     var sign_out = "請假";
@@ -108,16 +110,18 @@ tbody.addEventListener('click', function (event) {
                         var sign_out = "";
                     }
                 }
-                return [ID,name,sign_in,sign_out]
+                return [ID, name, sign_in, sign_out, , , , card]
             }).forEach(function (rowArray) {
                 let row = rowArray.join(",");
                 csvContent += row + "\r\n";
-            }); 
-
+            });
+            let d = new Date(create_time);
+            let create_date_str = `${d.getFullYear()}-${d.getMonth()+1}-${d.getDay()}`
+            let file_name = `${name}[${create_date_str}]`;
             var encodedUri = encodeURI(csvContent);
             var link = document.createElement("a");
             link.setAttribute("href", encodedUri);
-            link.setAttribute("download", "itseed_attendance.csv");
+            link.setAttribute("download", `${file_name}.csv`);
             document.body.appendChild(link); // Required for FF
             link.click();
             document.body.removeChild(link);
@@ -132,7 +136,6 @@ tbody.addEventListener('click', function (event) {
     const classList = event.target.classList;
     const targetTr = event.target.parentElement;
     const id = targetTr.dataset.id;
-
     const activity_manager_section = document.getElementById('activity-manager-section')
     const attendance_section = document.getElementById('attendance-section')
     const queryTotal = document.getElementById('query-total')
