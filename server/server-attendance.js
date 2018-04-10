@@ -1,6 +1,8 @@
-var path = require("path");
-var file = path.join(__dirname, './database.sqlite3')
-var sqlite3 = require("sqlite3").verbose();
+const path = require("path");
+const file = path.join(__dirname, './database.sqlite3')
+const sqlite3 = require("sqlite3").verbose();
+const crypto = require('crypto');
+const secret = 'itseedsAreAlawayHere';
 
 module.exports = {
     selectAttendance: function (id, callback) {
@@ -78,7 +80,7 @@ module.exports = {
         `;
         db.run(SQL, {
             $user_id: user_id,
-            $activity_id: activity_id,
+            $activity_id: activity_id
         }, callback);
         db.close();
     },
@@ -87,11 +89,11 @@ module.exports = {
         var SQL = `
             UPDATE Attendances 
             SET sign_out=(datetime('now','localtime'))
-            WHERE user_id=$user_id and activity_id=$activity_id
+            WHERE user_id=$user_id and activity_id=$activity_id;
         `;
         db.run(SQL, {
             $user_id: user_id,
-            $activity_id: activity_id,
+            $activity_id: activity_id
         }, callback);
         db.close();
     },
@@ -126,4 +128,24 @@ module.exports = {
         db.run(deleteUser);
         db.close();
     },
+    verifyByCard: function (input_card,activity_id,callback) {
+        var db = new sqlite3.Database(file);
+        const hash_input_card = crypto.createHmac('sha256', secret)
+            .update(input_card)
+            .digest('hex');
+        var SQL = `
+            SELECT *
+            FROM Attendances
+            Join Users
+            ON Attendances.user_id=Users.ID
+            Where activity_id = $activity_id AND card = $hash_input_card
+        `;
+        
+        let user = db.get(SQL, {
+            $hash_input_card: hash_input_card,
+            $activity_id: activity_id
+        }, callback);
+        db.close();
+    }
 }
+

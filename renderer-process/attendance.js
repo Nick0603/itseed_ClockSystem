@@ -4,7 +4,7 @@ const settings = require('electron-settings')
 const swal = require('sweetalert2');
 const server_user = require("../server/server-user");
 const server_attendance = require('../server/server-attendance')
-
+const titleName = document.querySelector('.title-name');
 const inputCard = document.getElementById('input-card');
 const dashboardPresent = document.getElementById('dashboard-present')
 const dashboardLeave = document.getElementById('dashboard-leave')
@@ -17,9 +17,8 @@ const checkboxIsSignOut = document.getElementById('checkbox-is-sign-out');
 const searchInput = document.getElementById('attendance-search-input');
 const searchBtn = document.getElementById('attendance-search-btn');
 let attendance_arr = [];
-let isSignOut = false;
-let signModeName = "sign-in";
-let signKeyName = "sign_in";
+let signModeName;
+let signKeyName;
 let golbal = this;
 
 
@@ -58,13 +57,21 @@ inputCard.addEventListener('keypress', function (event) {
         let swipeCard = this.value;
         this.value = "";
         let attendance_arr = golbal.attendance_arr;
-        server_user.verifyByCard(swipeCard, function (err, targetUser){
+        server_attendance.verifyByCard(swipeCard,activity_id,function (err, targetUser){
             console.log(targetUser);
             if (!targetUser) {
-                console.log("can't find the card")
+                console.warn("can't find the card")
                 return;
             }
             let isSignOut = settings.get('isSignOut');
+            if (isSignOut && targetUser.sign_out){
+                console.warn("dobule sign out!!")
+                return;
+            }
+            if (!isSignOut && targetUser.sign_in) {
+                console.warn("dobule sign in!!")
+                return;
+            }
             server_attendance.swipeById(targetUser.ID, activity_id, isSignOut, function (err) {
                 updateAttandanceView();
             })
@@ -125,7 +132,7 @@ function updateDashboard(attendance_arr) {
     function countAttendance(counter, attendance) {
         if (attendance.is_leave) {
             counter.leave += 1;
-        } else if (attendance[signKeyName]) {
+        } else if (attendance[golbal.signKeyName]) {
             counter.present += 1;
         } else {
             counter.noPresent += 1;
@@ -142,11 +149,10 @@ function updateDashboard(attendance_arr) {
     dashboardLeaveData.innerText = attCounter.leave;
     dashboardNoPresentData.innerText = attCounter.noPresent;
 }
-function showAttendanceData(attendance_arr, filter_attendance_arr) {
-    let titleName = document.querySelector('.title-name');
+function showAttendanceData(attendance_arr, filter_attendance_arr) { 
     let tbody = document.getElementById('js-attendance-tbody')
     // get the attandace mode ( sign-in or sign-out )
-    golbal.isSignOut = settings.get('isSignOut') || false;
+    let isSignOut = settings.get('isSignOut') || false;
     if (isSignOut) {
         golbal.signModeName = "sign-out";
         golbal.signKeyName = "sign_out";
@@ -163,7 +169,7 @@ function showAttendanceData(attendance_arr, filter_attendance_arr) {
     }
     if (attendance_display_type == "no-present") {
         attendance_arr = attendance_arr.filter((attendance) => {
-            return !attendance.is_leave && !attendance[signKeyName];
+            return !attendance.is_leave && !attendance[golbal.signKeyName];
         })
     }
     if (filter_attendance_arr) {
@@ -172,7 +178,7 @@ function showAttendanceData(attendance_arr, filter_attendance_arr) {
         }
         if (attendance_display_type == "no-present") {
             filter_attendance_arr = filter_attendance_arr.filter((attendance) => {
-                return !attendance.is_leave && !attendance[signKeyName];
+                return !attendance.is_leave && !attendance[golbal.signKeyName];
             })
         }
     }
@@ -193,16 +199,17 @@ function showAttendanceData(attendance_arr, filter_attendance_arr) {
 
 function showOne(attendance) {
     let newTr = document.createElement('tr');
+    let isSignOut = settings.get('isSignOut') || false;
     newTr.innerHTML = `
             <td class="user_id" >${attendance.user_id}</td>
             <td class="name">${attendance.name}</td>
-            <td class="${signModeName}-status"></td>
-            <td class="${signModeName}-time">--:--</td>
+            <td class="${golbal.signModeName}-status"></td>
+            <td class="${golbal.signModeName}-time">--:--</td>
             <td class="operate"></td>
         `;
     const operateTd = newTr.querySelector(".operate");
-    const statusTd = newTr.querySelector(`.${signModeName}-status`);
-    const signTimeTd = newTr.querySelector(`.${signModeName}-time`);
+    const statusTd = newTr.querySelector(`.${golbal.signModeName}-status`);
+    const signTimeTd = newTr.querySelector(`.${golbal.signModeName}-time`);
     if (attendance.is_leave) {
         statusTd.innerText = "請假";
         if (!isSignOut) {
@@ -212,8 +219,8 @@ function showOne(attendance) {
         }
         newTr.classList.add("is-leave");
     } else {
-        if (attendance[signKeyName]) {
-            var signDate = new Date(attendance[signKeyName]);
+        if (attendance[golbal.signKeyName]) {
+            var signDate = new Date(attendance[golbal.signKeyName]);
             var hours = signDate.getHours();
             var minutes = signDate.getMinutes();
             hours = (hours < 10) ? '0' + hours : hours;
@@ -393,6 +400,7 @@ function dialogSetCard(){
                     console.log(err);
                     return;
                 }
+                console.log(err);
                 updateAttandanceView();
                 card_input.focus();
             })
@@ -401,6 +409,16 @@ function dialogSetCard(){
 }
 
 (function initital() {
-    let isSignOut = settings.get('isSignOut');
+    let isSignOut = settings.get('isSignOut')  || false;
     checkboxIsSignOut.checked = isSignOut;
+    if (isSignOut) {
+        golbal.signModeName = "sign-out";
+        golbal.signKeyName = "sign_out";
+        titleName.innerText = "簽退頁面";
+    } else {
+        golbal.signModeName = "sign-in";
+        golbal.signKeyName = "sign_in";
+        titleName.innerText = "簽到頁面";
+    }
+    updateAttandanceView();
 })();

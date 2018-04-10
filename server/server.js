@@ -10,8 +10,7 @@ db.serialize(function () {
         name            TEXT        NOT NULL,
         date            DATETIME    NOT NULL,
         executor        TEXT        NOT NULL,
-        sign_in         DATETIME    NOT NULL,
-        sign_out        DATETIME    NOT NULL,
+        update_time     DATETIME    NOT NULL,
         create_time     DATETIME    DEFAULT (datetime('now','localtime'))
     )`);
 

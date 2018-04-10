@@ -39,7 +39,16 @@ module.exports = {
             var deleteUser = "DELETE FROM Users";
             var insertUser = "INSERT INTO Users(ID,name,card) VALUES (?,?,?)";
             db.run(deleteUser);
-            userArr.forEach(function(user){
+            userArr
+                .map(user=>{
+                    if(!user[2])return user;
+                    let card = user[2]
+                    user[2] = crypto.createHmac('sha256', secret)
+                        .update(card)
+                        .digest('hex');
+                    return user;
+                })
+                .forEach(function(user){
                     db.run(insertUser,user);
                 })
             var SQL = "SELECT * FROM Users";
@@ -57,15 +66,6 @@ module.exports = {
         var db = new sqlite3.Database(file);
         var deleteUser = "DELETE FROM Users";
         db.run(deleteUser);
-        db.close();
-    },
-    verifyByCard:function(input_card,callback){
-        var db = new sqlite3.Database(file);
-        const hash_input_card = crypto.createHmac('sha256', secret)
-            .update(input_card)
-            .digest('hex');
-        var SQL = "SELECT * FROM Users Where card = $hash_input_card";
-        let user = db.get(SQL, { $hash_input_card: hash_input_card },callback);
         db.close();
     }
 }
