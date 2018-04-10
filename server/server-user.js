@@ -40,14 +40,6 @@ module.exports = {
             var insertUser = "INSERT INTO Users(ID,name,card) VALUES (?,?,?)";
             db.run(deleteUser);
             userArr
-                .map(user=>{
-                    if(!user[2])return user;
-                    let card = user[2]
-                    user[2] = crypto.createHmac('sha256', secret)
-                        .update(card)
-                        .digest('hex');
-                    return user;
-                })
                 .forEach(function(user){
                     db.run(insertUser,user);
                 })

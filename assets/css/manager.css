@@ -28,7 +28,7 @@
 }
 
 
-.manager-list .is-selected td{
+.manager-list .is-selected{
     background-color:rgba(0,0,0,0.2);
 }
 .manager-list button{
@@ -53,13 +53,13 @@
   height:2em;
   border:none;
 }
-tr:hover td{
+tr:hover{
     background-color:rgba(210,210,210,0.3);
 }
-tr:active td{
+tr:active{
     background-color:rgba(210,210,210,0.6);
 }
-tr:nth-child(1):hover td{
+tr:nth-child(1):hover{
     background-color:white;
 }
 

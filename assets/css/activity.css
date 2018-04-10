@@ -29,18 +29,21 @@
     color:white;
 }
 
-.file-tbody .deleteBtn{
+.activity-tbody .deleteBtn{
     background-color:var(--color-red);
     border-color:var(--color-red);
     color:white;
 }
 
-.file-tbody .exportBtn{
+.activity-tbody .exportBtn{
     background-color:var(--color-blue);
     border-color:var(--color-blue);
     color:white;
 }
 
+.activity-tbody tr{
+    cursor:pointer;
+}
 
 .modal-btn{
     padding:8px 20px;

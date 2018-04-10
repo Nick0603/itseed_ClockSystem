@@ -59,7 +59,6 @@ tbody.addEventListener('click', function (event) {
         cancelOtherSeletedTr();
         targetTr.classList.add('is-selected')
         targetOperateTd.innerHTML = `
-            <button class="finishUpdate">完成</button>
             <button class="cancelUpdate">取消</button>
         `
         targetCardTd.innerHTML = `<input class="inputCard" type="TEXT">`;
