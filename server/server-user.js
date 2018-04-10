@@ -1,7 +1,9 @@
-var path = require("path");
-var file = path.join(__dirname, './database.sqlite3')
-var sqlite3 = require("sqlite3").verbose();
-var db = new sqlite3.Database(file);
+const path = require("path");
+const file = path.join(__dirname, './database.sqlite3')
+const sqlite3 = require("sqlite3").verbose();
+const db = new sqlite3.Database(file);
+const crypto = require('crypto');
+const secret = 'itseedsAreAlawayHere';
 
 db.serialize(function () {
     db.run(`
@@ -36,8 +38,11 @@ module.exports = {
     },
     updateUserCard:function(id,card,callback){
         var db = new sqlite3.Database(file);
+        const hash_card = crypto.createHmac('sha256', secret)
+            .update(card)
+            .digest('hex');
         var SQL = "UPDATE Users SET card=$card,update_time=datetime('now','localtime')  WHERE ID=$id";
-        db.run(SQL,{$id:id,$card:card},callback);
+        db.run(SQL, { $id: id, $card: hash_card},callback);
         db.close();
     },
     loadUserData:function(userArr,callback){

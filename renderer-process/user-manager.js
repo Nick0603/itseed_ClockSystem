@@ -126,23 +126,23 @@ searchInput.addEventListener('keypress', function (event) {
     }
 })
 searchBtn.addEventListener('click',function(){
-    let user_arr = window.user_arr;
-    let search_key = searchInput.value;
-    if (!search_key){
-        showUserData(user_arr);
-        return; 
-    }
-    let filter_user_arr = user_arr
-        .filter(user => {
-            return user.ID.includes(search_key) ||
-            user.name.includes(search_key)
-        })
-    showUserData(filter_user_arr);
+    server.selectAllUser(function (err, user_arr) {
+        let search_key = searchInput.value;
+        if (!search_key) {
+            showUserData(user_arr);
+            return;
+        }
+        let filter_user_arr = user_arr
+            .filter(user => {
+                return user.ID.includes(search_key) ||
+                    user.name.includes(search_key)
+            })
+        showUserData(filter_user_arr);
+    });
 })
 
 function initialize() {
     server.selectAllUser(function(err,user_arr){
-        window.user_arr = user_arr;
         showUserData(user_arr);
     });
 }

@@ -26,7 +26,7 @@ function handleSectionTrigger (event) {
 }
 
 function activateDefaultSection () {
-  document.getElementById('button-file-manager').click()
+  document.getElementById('button-activity-manager').click()
 }
 
 function showMainContent () {

@@ -133,13 +133,13 @@ tbody.addEventListener('click', function (event) {
     const targetTr = event.target.parentElement;
     const id = targetTr.dataset.id;
 
-    const file_manager_section = document.getElementById('file-manager-section')
+    const activity_manager_section = document.getElementById('activity-manager-section')
     const attendance_section = document.getElementById('attendance-section')
     const queryTotal = document.getElementById('query-total')
     if (classList.contains("name")) {
         settings.set('activity_id', id);
         // change section
-        file_manager_section.classList.remove('is-shown');
+        activity_manager_section.classList.remove('is-shown');
         attendance_section.classList.add('is-shown');
         queryTotal.click();
     }

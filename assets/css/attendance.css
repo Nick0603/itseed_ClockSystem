@@ -21,6 +21,12 @@
     background-color:white;
     border-radius: 4px;
     box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.29);
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.dashboard-item:hover{
+    box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.29);
 }
 
 .dashboard-item:nth-child(1){
