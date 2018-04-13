@@ -16,6 +16,8 @@ const tbody = document.getElementById('js-attendance-tbody');
 const checkboxIsSignOut = document.getElementById('checkbox-is-sign-out');
 const searchInput = document.getElementById('attendance-search-input');
 const searchBtn = document.getElementById('attendance-search-btn');
+const dashboardPresentDataName = document.querySelector('#dashboard-present .data-name')
+const dashboardNoPresentDataName = document.querySelector('#dashboard-no-present .data-name')
 let attendance_arr = [];
 let signModeName;
 let signKeyName;
@@ -26,6 +28,19 @@ let golbal = this;
 checkboxIsSignOut.addEventListener("change", function (event) {
     isSignOut = this.checked;
     settings.set('isSignOut', isSignOut);
+    if (isSignOut) {
+        golbal.signModeName = "sign-out";
+        golbal.signKeyName = "sign_out";
+        titleName.innerText = "簽退頁面";
+        dashboardPresentDataName.innerText = "已簽退人數";
+        dashboardNoPresentDataName.innerText = "未簽退人數";
+    } else {
+        golbal.signModeName = "sign-in";
+        golbal.signKeyName = "sign_in";
+        titleName.innerText = "簽到頁面";
+        dashboardPresentDataName.innerText = "已簽到人數";
+        dashboardNoPresentDataName.innerText = "未簽到人數";
+    }
     updateAttandanceView();
 })
 
@@ -415,10 +430,15 @@ function dialogSetCard(){
         golbal.signModeName = "sign-out";
         golbal.signKeyName = "sign_out";
         titleName.innerText = "簽退頁面";
+        dashboardPresentDataName.innerText = "已簽退人數";
+        dashboardNoPresentDataName.innerText = "未簽退人數";
     } else {
         golbal.signModeName = "sign-in";
         golbal.signKeyName = "sign_in";
         titleName.innerText = "簽到頁面";
+        dashboardPresentDataName.innerText = "已簽到人數";
+        dashboardNoPresentDataName.innerText = "未簽到人數";
     }
+
     updateAttandanceView();
 })();

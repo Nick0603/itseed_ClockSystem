@@ -60,6 +60,7 @@ tbody.addEventListener('click', function (event) {
         targetTr.classList.add('is-selected')
         targetOperateTd.innerHTML = `
             <button class="cancelUpdate">取消</button>
+            <button hidden class="finishUpdate">完成</button>
         `
         targetCardTd.innerHTML = `<input class="inputCard" type="TEXT">`;
         targetTr.querySelector("td.card-number input").focus();

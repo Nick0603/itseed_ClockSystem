@@ -139,7 +139,6 @@ tbody.addEventListener('click', function (event) {
     const activity_manager_section = document.getElementById('activity-manager-section')
     const attendance_section = document.getElementById('attendance-section')
     const queryTotal = document.getElementById('query-total')
-    console.log(classList);
     if (!classList.contains("deleteBtn")&&
         !classList.contains("exportBtn")
     ) {
