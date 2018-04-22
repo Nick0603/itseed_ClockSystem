@@ -24,8 +24,8 @@
     "release": "node ./script/release.js",
     "prepack": "check-for-leaks",
     "prepush": "check-for-leaks",
-    "lint": "eslint  renderer-process/*.js",
-    "lint-fix": "eslint --fix renderer-process/*.js"
+    "lint": "eslint  renderer-process/*.js & eslint  server/*.js",
+    "lint-fix": "eslint --fix renderer-process/*.js & eslint --fix  server/*.js"
   },
   "keywords": [
     "Electron",
