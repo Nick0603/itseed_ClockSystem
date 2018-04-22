@@ -207,3 +207,43 @@ input:checked + .slider:after {
     width:250px;
 }
 
+
+
+.swipe-message{
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform: translateX(-50%) translateY(-50%);
+    z-index: 2;
+    padding:1em;
+    min-width:360px;
+    min-height:150px;
+    background-color: #fff;
+    border:solid 1px var(--color-blue);
+    color:var(--color-blue);
+    box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.29);
+    transition:0.3s;
+    opacity: 0;
+}
+
+.swipe-message-show{
+    opacity: 1;
+}
+
+.swipe-message .title{
+    font-size:3em;
+}
+
+.swipe-message .status{
+    font-size:1.5em;
+}
+
+.swipe-message .user-div,
+.swipe-message .description-div{
+    display:flex;
+}
+
+.swipe-message .user-div .left,
+.swipe-message .description-div .left{
+    width:4em;
+}

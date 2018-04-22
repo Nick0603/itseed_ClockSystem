@@ -23,6 +23,22 @@ module.exports = {
         db.all(SQL, { $activity_id: activity_id }, callback);
         db.close();
     },
+    selectAttendanceOnly: function (activity_id,user_id,callback) {
+        var db = new sqlite3.Database(file);
+        var SQL = `
+            SELECT *
+            FROM Attendances
+            Join Users
+            ON Attendances.user_id=Users.ID
+            Where activity_id = $activity_id AND
+                  user_id = $user_id
+        `;
+        db.get(SQL, {
+            $activity_id: activity_id,
+            $user_id: user_id
+        }, callback);
+        db.close();
+    },
     selectAllAttendance: function (callback) {
         var db = new sqlite3.Database(file);
         var SQL = "SELECT * FROM Attendances";
@@ -107,8 +123,7 @@ module.exports = {
         db.run(SQL, {
             $user_id: user_id,
             $activity_id: activity_id,
-        }, callback);
-        db.close();
+        },callback);
     },
     deleteAttendance: function (id, callback) {
         var db = new sqlite3.Database(file);
