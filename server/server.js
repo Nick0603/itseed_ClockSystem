@@ -11,7 +11,7 @@ db.serialize(function () {
         date            DATETIME    NOT NULL,
         executor        TEXT        NOT NULL,
         sign_in     DATETIME    NOT NULL,
-        sign_out     DATETIME    DEFAULT (datetime('now','localtime'))
+        sign_out     DATETIME    NOT NULL
     )`);
 
 	db.run(`
