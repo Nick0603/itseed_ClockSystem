@@ -1,52 +1,37 @@
-# <img src="https://cloud.githubusercontent.com/assets/378023/15172388/b2b81950-1790-11e6-9a7c-ccc39912bb3a.png" width="60px" align="center" alt="Electron API Demos icon"> Electron API Demos
+# <img src="https://github.com/Nick0603/itseed_ClockSystem/blob/master/docs/screenshot.png?raw=true" width="60px" align="center" alt="system screenshot"> 資訊種子簽到系統
 
 
+此為 15th 資訊種子資訊組年度開發專案之一 簽到系統的 Desktop App，以 [Electron Demo](https://github.com/electron/electron-api-demos) 為基底進行開發 
 
-This is a desktop app that interactively and with sample code demonstrates core features of the [Electron](http://electron.atom.io) API. It's built with Electron, too, of course. This app works on Windows, macOS and Linux operating systems.
-
-Use this app to see what you can do with Electron and use the source code to learn how to create a basic Electron app.
-
-![Electron API Demos Screenshots](https://cloud.githubusercontent.com/assets/378023/15016148/ae06cc80-124a-11e6-80dd-076d83e492f6.png)
+![Sysytem Screenshots](https://github.com/Nick0603/itseed_ClockSystem/blob/master/docs/screenshot.png?raw=true)
 
 ---
 
-This project adheres to the Contributor Covenant [code of conduct](CODE_OF_CONDUCT.md).
-By participating, you are expected to uphold this code. Please report unacceptable
-behavior to electron@github.com.
+此專案目的
+1. 減少常態性課程的簽到流程，以刷卡取代手動簽到
+2. 數位化讓原紙本簽到不易統整的問題得以解決
 
-Follow [@ElectronJS](https://twitter.com/electronjs) on Twitter for important
-announcements. Visit the [electron website](http://electron.atom.io).
+## 使用方式
 
-## Using
+因目前開發環境關係，只先釋出 [mac Desktop app[(https://drive.google.com/drive/folders/18GtCYIp1uhig9QZstUdnXXUvIVgUTdwF?usp=sharing) 版本，如果需在其他系統上運行，可以自行建置，建置步驟如下
 
-You can [download the latest release](https://github.com/electron/electron-api-demos/releases) for your operating system or build it yourself (see below).
-
-## Building
+## 建置
 
 You'll need [Node.js](https://nodejs.org) installed on your computer in order to build this app.
 
 ```bash
-$ git clone https://github.com/electron/electron-api-demos
-$ cd electron-api-demos
+$ git clone https://github.com/Nick0603/itseed_ClockSystem
+$ cd itseed_ClockSystem
 $ npm install
 $ npm start
 ```
 
-If you don't wish to clone, you can [download the source code](https://github.com/electron/electron-api-demos/archive/master.zip).
-
-For easier developing you can launch the app in fullscreen with DevTools open:
+開發模式可以下此指令，讓啟動 app 時開啟 DevTools
 
 ```bash
 $ npm run dev
 ```
 
-## Extending
+## 開發說明
 
- [Read the docs](docs.md) to learn more about how this app is built or how to [add a new demo](docs.md#add-a-section-or-demo).
-
-## Translations
-
-* Simplified Chinese translation of this app is available at [`demopark/electron-api-demos-Zh_CN`](https://github.com/demopark/electron-api-demos-Zh_CN).
-* Tradition Chinese translation of this app is available at [`CalvertYang/electron-api-demos-zh-Hant`](https://github.com/CalvertYang/electron-api-demos-zh-Hant).
-
-Note: these versions are maintained by outside contributors and may not always be in sync with this version.
+架構沿用 Electron [官方文件](docs.md)
