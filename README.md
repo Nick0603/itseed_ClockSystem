@@ -13,11 +13,11 @@
 
 ## 使用方式
 
-因目前開發環境關係，只先釋出 [mac Desktop app[(https://drive.google.com/drive/folders/18GtCYIp1uhig9QZstUdnXXUvIVgUTdwF?usp=sharing) 版本，如果需在其他系統上運行，可以自行建置，建置步驟如下
+因目前開發環境關係，只先釋出 [mac Desktop app](https://drive.google.com/drive/folders/18GtCYIp1uhig9QZstUdnXXUvIVgUTdwF?usp=sharing) 版本，如果需在其他系統上運行，可以自行建置，建置步驟如下
 
 ## 建置
 
-You'll need [Node.js](https://nodejs.org) installed on your computer in order to build this app.
+需先確認已經安裝 [Node.js](https://nodejs.org) 在環境上。
 
 ```bash
 $ git clone https://github.com/Nick0603/itseed_ClockSystem
